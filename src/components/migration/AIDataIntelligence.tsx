@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
   Send,
   Bot,
@@ -217,7 +218,101 @@ export function AIDataIntelligence() {
                         : "bg-zinc-800 border border-zinc-700 text-zinc-100"
                     )}
                   >
-                    <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                    {message.role === 'assistant' ? (
+                      <div className="prose prose-sm prose-invert max-w-none prose-p:text-zinc-200 prose-p:leading-relaxed prose-p:my-2 prose-headings:text-white prose-headings:font-bold prose-h1:text-lg prose-h2:text-base prose-h3:text-sm prose-strong:text-white prose-strong:font-semibold prose-code:text-purple-400 prose-code:bg-zinc-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-ul:my-2 prose-ul:space-y-1 prose-li:text-zinc-300 prose-li:my-0 prose-ol:my-2 prose-ol:space-y-1 prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-purple-500 prose-blockquote:text-zinc-400 prose-hr:border-zinc-700">
+                        <ReactMarkdown
+                          components={{
+                            // Custom renderers for better styling
+                            ul: ({ children }) => (
+                              <ul className="list-disc list-outside ml-4 space-y-1.5 my-3">
+                                {children}
+                              </ul>
+                            ),
+                            ol: ({ children }) => (
+                              <ol className="list-decimal list-outside ml-4 space-y-1.5 my-3">
+                                {children}
+                              </ol>
+                            ),
+                            li: ({ children }) => (
+                              <li className="text-zinc-300 text-sm leading-relaxed">
+                                {children}
+                              </li>
+                            ),
+                            p: ({ children }) => (
+                              <p className="text-zinc-200 text-sm leading-relaxed my-2">
+                                {children}
+                              </p>
+                            ),
+                            strong: ({ children }) => (
+                              <strong className="text-white font-semibold">
+                                {children}
+                              </strong>
+                            ),
+                            code: ({ children, className }) => {
+                              const isInline = !className;
+                              if (isInline) {
+                                return (
+                                  <code className="text-purple-400 bg-zinc-900/80 px-1.5 py-0.5 rounded text-xs font-mono">
+                                    {children}
+                                  </code>
+                                );
+                              }
+                              return (
+                                <code className={className}>
+                                  {children}
+                                </code>
+                              );
+                            },
+                            pre: ({ children }) => (
+                              <pre className="bg-zinc-900 rounded-lg p-3 overflow-x-auto my-3 text-xs">
+                                {children}
+                              </pre>
+                            ),
+                            h1: ({ children }) => (
+                              <h1 className="text-lg font-bold text-white mt-4 mb-2">
+                                {children}
+                              </h1>
+                            ),
+                            h2: ({ children }) => (
+                              <h2 className="text-base font-bold text-white mt-3 mb-2">
+                                {children}
+                              </h2>
+                            ),
+                            h3: ({ children }) => (
+                              <h3 className="text-sm font-bold text-white mt-3 mb-1">
+                                {children}
+                              </h3>
+                            ),
+                            blockquote: ({ children }) => (
+                              <blockquote className="border-l-2 border-purple-500 pl-3 my-3 text-zinc-400 italic">
+                                {children}
+                              </blockquote>
+                            ),
+                            table: ({ children }) => (
+                              <div className="overflow-x-auto my-3">
+                                <table className="min-w-full text-sm border-collapse">
+                                  {children}
+                                </table>
+                              </div>
+                            ),
+                            th: ({ children }) => (
+                              <th className="border border-zinc-700 bg-zinc-900 px-3 py-2 text-left text-xs font-bold text-zinc-300 uppercase tracking-wider">
+                                {children}
+                              </th>
+                            ),
+                            td: ({ children }) => (
+                              <td className="border border-zinc-700 px-3 py-2 text-zinc-300">
+                                {children}
+                              </td>
+                            ),
+                          }}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                    )}
                     <p className={cn(
                       "text-[10px] mt-2 font-mono",
                       message.role === 'user' ? "text-blue-200" : "text-zinc-500"
