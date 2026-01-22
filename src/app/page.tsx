@@ -2,13 +2,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
-  LayoutDashboard, 
-  GitBranch, 
-  Network, 
-  CheckCircle2, 
-  History, 
-  Menu, 
+import {
+  LayoutDashboard,
+  GitBranch,
+  Network,
+  CheckCircle2,
+  History,
+  Menu,
   X,
   ShieldCheck,
   AlertTriangle,
@@ -17,18 +17,20 @@ import {
   ChevronDown,
   Building2,
   Settings,
-  Database as DbIcon
+  Database as DbIcon,
+  Sparkles
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { 
-  Dashboard, 
-  Lifecycle, 
-  DependencyGraph, 
+import {
+  Dashboard,
+  Lifecycle,
+  DependencyGraph,
   Reconciliation,
-  ObjectSelection 
+  ObjectSelection,
+  AIDataIntelligence
 } from '@/components/migration';
 
-type TabType = 'dashboard' | 'selection' | 'lifecycle' | 'dependency' | 'reconciliation';
+type TabType = 'dashboard' | 'selection' | 'lifecycle' | 'dependency' | 'reconciliation' | 'ai-intelligence';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('selection');
@@ -40,6 +42,7 @@ export default function Home() {
     { id: 'lifecycle', label: 'Migration Lifecycle', icon: GitBranch },
     { id: 'dependency', label: 'Object Dependencies', icon: Network },
     { id: 'reconciliation', label: 'Reconciliation Intelligence', icon: CheckCircle2 },
+    { id: 'ai-intelligence', label: 'AI Data Intelligence', icon: Sparkles },
   ];
 
   const steps = [
@@ -205,6 +208,7 @@ export default function Home() {
             {activeTab === 'lifecycle' && <Lifecycle />}
             {activeTab === 'dependency' && <DependencyGraph />}
             {activeTab === 'reconciliation' && <Reconciliation />}
+            {activeTab === 'ai-intelligence' && <AIDataIntelligence />}
           </div>
         </div>
 
